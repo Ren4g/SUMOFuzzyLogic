@@ -22,12 +22,15 @@ def tripinfo_to_csv(tripinfo_path: Path, output_path: Path) -> Path:
     root = tree.getroot()
     rows: list[dict[str, str]] = []
 
-    for vehicle in root.findall("vehicle"):
-        row = {key: _safe_float(vehicle.attrib.get(key, "")) for key in vehicle.attrib}
-        rows.append(row)
-
-    if not rows:
+    entries = root.findall("tripinfo")
+    if not entries:
+        entries = root.findall("vehicle")
+    if not entries:
         raise ValueError(f"No vehicle records found in {tripinfo_path}")
+
+    for element in entries:
+        row = {key: _safe_float(element.attrib.get(key, "")) for key in element.attrib}
+        rows.append(row)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = sorted({field for row in rows for field in row})
