@@ -1,1 +1,1 @@
-cái này chạy mượt nhưng để render chạy mượt nên cấu hình chạy tốn tài nguyên gấp 10 lần để render GUI, lúc làm mô phỏng không cần mở GUI nhìn thì bỏ cấu hình này
+cái này chạy mượt nhưng để render chạy mượt nên cấu hình chạy tốn tài nguyên gấp 10 lần để render GUI, lúc làm mô phỏng không cần mở GUI nhìn thì bỏ cấu hình này, để delay 100ms
