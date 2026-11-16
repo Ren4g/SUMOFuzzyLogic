@@ -1,0 +1,23 @@
+<routes>
+  <vType id="car" length="5" accel="2.6" decel="4.5" maxSpeed="13.89"/>
+
+  <!-- Từ phía dưới (đi lên) -->
+  <flow id="b_thang" type="car" from="bottom0A0" to="A0top0"   begin="0" end="3600" vehsPerHour="400" departLane="best"/>
+  <flow id="b_trai"  type="car" from="bottom0A0" to="A0left0"  begin="0" end="3600" vehsPerHour="100" departLane="best"/>
+  <flow id="b_phai"  type="car" from="bottom0A0" to="A0right0" begin="0" end="3600" vehsPerHour="100" departLane="best"/>
+
+  <!-- Từ phía trên (đi xuống) -->
+  <flow id="t_thang" type="car" from="top0A0" to="A0bottom0" begin="0" end="3600" vehsPerHour="400" departLane="best"/>
+  <flow id="t_trai"  type="car" from="top0A0" to="A0right0"  begin="0" end="3600" vehsPerHour="100" departLane="best"/>
+  <flow id="t_phai"  type="car" from="top0A0" to="A0left0"   begin="0" end="3600" vehsPerHour="100" departLane="best"/>
+
+  <!-- Từ bên trái (đi sang phải) -->
+  <flow id="l_thang" type="car" from="left0A0" to="A0right0"  begin="0" end="3600" vehsPerHour="250" departLane="best"/>
+  <flow id="l_trai"  type="car" from="left0A0" to="A0top0"    begin="0" end="3600" vehsPerHour="60"  departLane="best"/>
+  <flow id="l_phai"  type="car" from="left0A0" to="A0bottom0" begin="0" end="3600" vehsPerHour="60"  departLane="best"/>
+
+  <!-- Từ bên phải (đi sang trái) -->
+  <flow id="r_thang" type="car" from="right0A0" to="A0left0"   begin="0" end="3600" vehsPerHour="250" departLane="best"/>
+  <flow id="r_trai"  type="car" from="right0A0" to="A0bottom0" begin="0" end="3600" vehsPerHour="60"  departLane="best"/>
+  <flow id="r_phai"  type="car" from="right0A0" to="A0top0"    begin="0" end="3600" vehsPerHour="60"  departLane="best"/>
+</routes>
