@@ -28,6 +28,8 @@ def compare_summaries(paths: list[Path]) -> list[dict[str, str]]:
         comparison.append({
             "controller": row.get("controller", path.stem),
             "run_id": row.get("run_id", path.stem),
+            "scenario": row.get("scenario", ""),
+            "seed": row.get("seed", ""),
             "vehicle_count": row.get("vehicle_count", ""),
             "avg_travel_time": row.get("avg_travel_time", ""),
             "avg_waiting_time": row.get("avg_waiting_time", ""),
@@ -43,6 +45,8 @@ def save_comparison(path: Path, rows: list[dict[str, str]]) -> Path:
     fieldnames = [
         "controller",
         "run_id",
+        "scenario",
+        "seed",
         "vehicle_count",
         "avg_travel_time",
         "avg_waiting_time",

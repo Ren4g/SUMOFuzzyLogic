@@ -1,0 +1,13 @@
+<routes>
+  <!-- First half: heavy north-south demand, light east-west demand. -->
+  <flow id="ns_north_first" begin="0" end="1800" vehsPerHour="2200" from="-E1" to="E3" departLane="best"/>
+  <flow id="ns_south_first" begin="0" end="1800" vehsPerHour="2200" from="-E3" to="E1" departLane="best"/>
+  <flow id="ew_west_first" begin="0" end="1800" vehsPerHour="120" from="E0" to="E2" departLane="best"/>
+  <flow id="ew_east_first" begin="0" end="1800" vehsPerHour="120" from="-E2" to="-E0" departLane="best"/>
+
+  <!-- Second half: the same demand switches to east-west. -->
+  <flow id="ns_north_second" begin="1800" end="3600" vehsPerHour="120" from="-E1" to="E3" departLane="best"/>
+  <flow id="ns_south_second" begin="1800" end="3600" vehsPerHour="120" from="-E3" to="E1" departLane="best"/>
+  <flow id="ew_west_second" begin="1800" end="3600" vehsPerHour="2200" from="E0" to="E2" departLane="best"/>
+  <flow id="ew_east_second" begin="1800" end="3600" vehsPerHour="2200" from="-E2" to="-E0" departLane="best"/>
+</routes>

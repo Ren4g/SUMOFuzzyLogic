@@ -30,6 +30,9 @@ def plot_comparison(data: pd.DataFrame, output_path: Path) -> Path:
         "avg_time_loss",
         "throughput_vehicles_per_hour",
     ]
+    missing = [metric for metric in metrics if metric not in data.columns]
+    if missing:
+        raise ValueError(f"Comparison CSV is missing metric columns: {', '.join(missing)}")
     numeric_data = data[metrics].apply(pd.to_numeric, errors="coerce")
     if numeric_data.empty:
         raise ValueError("No numeric metrics available for plotting")
@@ -40,8 +43,12 @@ def plot_comparison(data: pd.DataFrame, output_path: Path) -> Path:
 
     for ax, metric in zip(axes, metrics):
         values = numeric_data[metric].tolist()
-        labels = data["controller"].tolist()
-        ax.bar(labels, values, color=["#4C78A8", "#F58518"][: len(labels)])
+        labels = [
+            f"{row.get('controller', 'run')}\n{str(row.get('run_id', ''))[-6:]}"
+            for row in data.to_dict(orient="records")
+        ]
+        palette = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+        ax.bar(labels, values, color=[palette[index % len(palette)] for index in range(len(labels))])
         ax.set_title(metric.replace("_", " ").title())
         ax.set_ylabel(metric)
         ax.tick_params(axis="x", rotation=15)

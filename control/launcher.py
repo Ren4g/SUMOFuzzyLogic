@@ -19,6 +19,7 @@ DEFAULTS = {
     "mode": "observe",
     "green": 30,
     "yellow": 3,
+    "seed": 1,
     "print_every": 0,
     "nogui": False,
 }
@@ -67,6 +68,7 @@ class Launcher(tk.Tk):
         self.var_mode = tk.StringVar(value=s["mode"])
         self.var_green = tk.IntVar(value=s["green"])
         self.var_yellow = tk.IntVar(value=s["yellow"])
+        self.var_seed = tk.IntVar(value=s["seed"])
         self.var_print = tk.IntVar(value=s["print_every"])
         self.var_nogui = tk.BooleanVar(value=s["nogui"])
 
@@ -91,31 +93,38 @@ class Launcher(tk.Tk):
         ttk.Radiobutton(frm, text="Đèn cố định (nhập giây)", value="fixed",
                         variable=self.var_mode, command=self._on_mode_change
                         ).grid(row=2, column=1, columnspan=2, sticky="w", **pad)
+        ttk.Radiobutton(frm, text="Điều khiển fuzzy", value="fuzzy",
+                        variable=self.var_mode, command=self._on_mode_change
+                        ).grid(row=3, column=1, columnspan=2, sticky="w", **pad)
 
-        ttk.Label(frm, text="Đèn xanh (s):").grid(row=3, column=0, sticky="w", **pad)
+        ttk.Label(frm, text="Đèn xanh (s):").grid(row=4, column=0, sticky="w", **pad)
         self.sp_green = ttk.Spinbox(frm, from_=5, to=120, textvariable=self.var_green, width=6)
-        self.sp_green.grid(row=3, column=1, sticky="w", **pad)
+        self.sp_green.grid(row=4, column=1, sticky="w", **pad)
 
-        ttk.Label(frm, text="Đèn vàng (s):").grid(row=4, column=0, sticky="w", **pad)
+        ttk.Label(frm, text="Đèn vàng (s):").grid(row=5, column=0, sticky="w", **pad)
         self.sp_yellow = ttk.Spinbox(frm, from_=1, to=10, textvariable=self.var_yellow, width=6)
-        self.sp_yellow.grid(row=4, column=1, sticky="w", **pad)
+        self.sp_yellow.grid(row=5, column=1, sticky="w", **pad)
 
-        ttk.Label(frm, text="In chi tiết mỗi (s), 0 = tắt:").grid(row=5, column=0, sticky="w", **pad)
+        ttk.Label(frm, text="Seed SUMO:").grid(row=6, column=0, sticky="w", **pad)
+        ttk.Spinbox(frm, from_=0, to=99999999, textvariable=self.var_seed, width=10
+                    ).grid(row=6, column=1, sticky="w", **pad)
+
+        ttk.Label(frm, text="In chi tiết mỗi (s), 0 = tắt:").grid(row=7, column=0, sticky="w", **pad)
         ttk.Spinbox(frm, from_=0, to=300, textvariable=self.var_print, width=6
-                    ).grid(row=5, column=1, sticky="w", **pad)
+                    ).grid(row=7, column=1, sticky="w", **pad)
 
         ttk.Checkbutton(frm, text="Chạy không GUI (nhanh hơn)", variable=self.var_nogui
-                        ).grid(row=6, column=0, columnspan=3, sticky="w", **pad)
+                        ).grid(row=8, column=0, columnspan=3, sticky="w", **pad)
 
         btns = ttk.Frame(frm)
-        btns.grid(row=7, column=0, columnspan=3, pady=8)
+        btns.grid(row=9, column=0, columnspan=3, pady=8)
         self.btn_run = ttk.Button(btns, text="Chạy", command=self._run)
         self.btn_run.pack(side="left", padx=4)
         self.btn_stop = ttk.Button(btns, text="Dừng", command=self._stop, state="disabled")
         self.btn_stop.pack(side="left", padx=4)
 
         self.log = tk.Text(frm, width=80, height=16, state="disabled", wrap="none")
-        self.log.grid(row=8, column=0, columnspan=3, padx=8, pady=4)
+        self.log.grid(row=10, column=0, columnspan=3, padx=8, pady=4)
 
     def _on_mode_change(self):
         state = "normal" if self.var_mode.get() == "fixed" else "disabled"
@@ -128,6 +137,7 @@ class Launcher(tk.Tk):
             "mode": self.var_mode.get(),
             "green": self.var_green.get(),
             "yellow": self.var_yellow.get(),
+            "seed": self.var_seed.get(),
             "print_every": self.var_print.get(),
             "nogui": self.var_nogui.get(),
         }
@@ -157,6 +167,7 @@ class Launcher(tk.Tk):
                "--mode", s["mode"],
                "--green", str(s["green"]),
                "--yellow", str(s["yellow"]),
+               "--seed", str(s["seed"]),
                "--print-every", str(s["print_every"])]
         if s["nogui"]:
             cmd.append("--nogui")

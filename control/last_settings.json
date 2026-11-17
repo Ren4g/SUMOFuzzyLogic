@@ -1,8 +1,9 @@
 {
-  "scenario": "4huong3lan",
-  "mode": "observe",
+  "scenario": "fuzzy_adaptive_demo",
+  "mode": "fuzzy",
   "green": 3,
   "yellow": 3,
-  "print_every": 10,
-  "nogui": true
+  "seed": 1,
+  "print_every": 0,
+  "nogui": false
 }

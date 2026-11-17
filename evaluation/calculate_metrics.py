@@ -109,7 +109,7 @@ def read_trip_csv(path: Path) -> list[dict[str, str]]:
 
 def write_metrics(path: Path, metrics: Mapping[str, str | int | float]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    fields = ("controller", "run_id", *METRIC_FIELDS)
+    fields = ("controller", "run_id", "scenario", "seed", *METRIC_FIELDS)
     with path.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fields)
         writer.writeheader()

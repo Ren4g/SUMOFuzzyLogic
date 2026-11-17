@@ -1,27 +1,19 @@
-# Evaluation package
+﻿# Evaluation
 
-Thư mục này chứa các bước xử lý dữ liệu và so sánh hiệu suất giữa các chiến lược điều khiển giao thông.
+Each completed `control/run_sumo.py` run automatically writes:
 
-## Luồng làm việc
+- SUMO `tripinfo_*.xml` in `results/`.
+- Per-vehicle CSV and one-row run summary in `results/evaluation/`.
+- The existing aggregate row in `results/results.csv`.
 
-1. Chạy mô phỏng SUMO để sinh ra file `tripinfo.xml`.
-2. Chuyển `tripinfo.xml` thành CSV từng xe bằng `collect_metrics.py`.
-3. Tính các chỉ số thống kê bằng `calculate_metrics.py`.
-4. So sánh các chiến lược bằng `analyze_results.py`.
-5. Vẽ biểu đồ bằng `plot_results.py`.
+Build charts and comparison CSVs from saved run summaries:
 
-## Ví dụ chạy
-
-```bash
-"C:/Program Files/Python311/python.exe" evaluation/collect_metrics.py tripinfo.xml --output evaluation/results/tripinfo.csv
-"C:/Program Files/Python311/python.exe" evaluation/calculate_metrics.py evaluation/results/tripinfo.csv --output evaluation/results/fixed_time_summary.csv --controller fixed_time --run-id fixed_time --simulation-duration 3600
-"C:/Program Files/Python311/python.exe" evaluation/calculate_metrics.py evaluation/results/tripinfo.csv --output evaluation/results/fuzzy_summary.csv --controller fuzzy --run-id fuzzy --simulation-duration 3600
-"C:/Program Files/Python311/python.exe" evaluation/analyze_results.py evaluation/results/fixed_time_summary.csv evaluation/results/fuzzy_summary.csv --output evaluation/results/comparison.csv
-"C:/Program Files/Python311/python.exe" evaluation/plot_results.py evaluation/results/comparison.csv --output evaluation/results/plot.png
+```powershell
+python -m evaluation.report_results
+python -m evaluation.report_results --scenario 4huong3lan
+python -m evaluation.report_results --scenario 4huong3lan --seed 1
 ```
 
-## Lưu ý
+When summaries from multiple scenarios exist, the default command writes a separate comparison for each scenario. Each bar represents an individual run and records its SUMO seed. The tool does not aggregate seeds or calculate confidence intervals, so run fuzzy and baseline with the same scenario, demand, and multiple identical seed values before drawing performance conclusions.
 
-- Các file `tripinfo.xml` và `evaluation/results/*.csv` được sinh ra động trong quá trình chạy mô phỏng.
-- Nếu dữ liệu đầu vào thiếu cột thời gian, script sẽ báo lỗi rõ ràng thay vì chạy ngầm.
-- Khi cần so sánh nhiều hiệu ứng hơn, chỉ cần thêm summary CSV và dùng cùng `analyze_results.py`.
+Metrics include completed-vehicle count, mean travel time, waiting time, time loss, route length, and completed vehicles per simulated hour. Waiting-time and travel metrics are computed for vehicles present in SUMO tripinfo (completed trips).

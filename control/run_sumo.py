@@ -12,8 +12,11 @@ import traci
 
 from read_traffic import get_light_state, get_queues
 from control_traffic_light import print_program, set_fixed_timing
+from fuzzy_phase_controller import FuzzyPhaseController
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_DIR)
 
 import csv
 import xml.etree.ElementTree as ET
@@ -32,11 +35,14 @@ def find_config(scenario):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--scenario", default="4huong3lan", help="tên thư mục trong sumo/")
-    ap.add_argument("--mode", choices=["observe", "fixed"], default="observe")
+    ap.add_argument("--mode", choices=["observe", "fixed", "fuzzy"], default="observe")
     ap.add_argument("--green", type=int, default=30)
     ap.add_argument("--yellow", type=int, default=3)
+    ap.add_argument("--seed", type=int, default=1, help="SUMO random seed for reproducible comparisons")
     ap.add_argument("--print-every", type=float, default=10, help="giây mô phỏng")
     ap.add_argument("--nogui", action="store_true")
     args = ap.parse_args()
@@ -49,7 +55,8 @@ def main():
 
     binary = sumolib.checkBinary("sumo" if args.nogui else "sumo-gui")
     cmd = [binary, "-c", config, "--step-length", str(STEP_LENGTH),
-           "--tripinfo-output", tripinfo_path]
+           "--tripinfo-output", tripinfo_path, "--seed", str(args.seed),
+           "--no-step-log", "true"]
     if not args.nogui:
         cmd += ["--delay", "100", "--start", "--quit-on-end"]
 
@@ -69,6 +76,10 @@ def main():
             print(f"\nĐã đặt: xanh {args.green} s, vàng {args.yellow} s\n")
             print_program(tls_id)
 
+        fuzzy_control = FuzzyPhaseController(tls_id) if args.mode == "fuzzy" else None
+        if fuzzy_control:
+            fuzzy_control.apply_current_phase()
+
         sample_steps = max(1, round(SAMPLE_INTERVAL / traci.simulation.getDeltaT()))
         step = 0
         next_print = 0.0
@@ -78,6 +89,9 @@ def main():
             step += 1
             arrived += traci.simulation.getArrivedNumber()
             t = traci.simulation.getTime()
+
+            if fuzzy_control:
+                fuzzy_control.apply_current_phase()
 
             # thu số liệu cho phần tổng kết
             if step % sample_steps == 0:
@@ -112,6 +126,7 @@ def main():
         "mode": args.mode,
         "green": args.green if args.mode == "fixed" else "",
         "yellow": args.yellow if args.mode == "fixed" else "",
+        "seed": args.seed,
         "step_length": STEP_LENGTH,
         "sim_time": round(sim_time),
         "vehicles": trip["vehicles"] if trip else "",
@@ -121,6 +136,19 @@ def main():
         "avg_wait_sampled": round(total_waiting / samples, 2) if samples else "",
     }
     print("Đã lưu kết quả vào:", save_row(row))
+    if trip:
+        from evaluation.run_evaluation import evaluate_tripinfo
+
+        evaluation_paths = evaluate_tripinfo(
+            tripinfo_path=tripinfo_path,
+            scenario=args.scenario,
+            controller={"observe": "sumo_default", "fixed": "fixed_time", "fuzzy": "fuzzy"}[args.mode],
+            run_id=run_id,
+            seed=args.seed,
+            simulation_duration=sim_time,
+            output_dir=os.path.join(PROJECT_DIR, "results", "evaluation"),
+        )
+        print("Đã lưu dữ liệu đánh giá:", evaluation_paths["summary"])
     if samples:
         print(f"Thời gian chờ trung bình mỗi mẫu xe: {total_waiting / samples:.2f} s")
 
