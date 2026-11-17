@@ -3,6 +3,6 @@
   "mode": "observe",
   "green": 3,
   "yellow": 3,
-  "print_every": 0,
+  "print_every": 10,
   "nogui": true
 }
