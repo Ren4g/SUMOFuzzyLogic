@@ -1,0 +1,2 @@
+controller,run_id,vehicle_count,avg_travel_time,avg_waiting_time,avg_time_loss,avg_route_length,throughput_vehicles_per_hour
+fixed_time,fixed_time,600,27.106666666666666,13.615,20.54754999999998,78.77916666666658,2128.07881773399
