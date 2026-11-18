@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- ==================== GIAI ĐOẠN 1 (0s - 1200s): ĐÔNG BẮC - NAM ==================== -->
+    <!-- Trục Bắc - Nam (-E1, -E3): Đông xe -->
+    <flow id="g1_f6"  begin="0.00" end="1200.00" probability="0.06" departLane="best" departSpeed="max" from="-E3" to="E2"/>
+    <flow id="g1_f7"  begin="0.00" end="1200.00" probability="0.06" departLane="best" departSpeed="max" from="-E3" to="-E0"/>
+    <flow id="g1_f8"  begin="0.00" end="1200.00" probability="0.18" departLane="best" departSpeed="max" from="-E3" to="E1"/>
+
+    <flow id="g1_f9"  begin="0.00" end="1200.00" probability="0.06" departLane="best" departSpeed="max" from="-E1" to="-E0"/>
+    <flow id="g1_f10" begin="0.00" end="1200.00" probability="0.18" departLane="best" departSpeed="max" from="-E1" to="E3"/>
+    <flow id="g1_f11" begin="0.00" end="1200.00" probability="0.06" departLane="best" departSpeed="max" from="-E1" to="E2"/>
+
+    <!-- Trục Đông - Tây (E0, -E2): Thưa xe -->
+    <flow id="g1_f0"  begin="0.00" end="1200.00" probability="0.02" departLane="best" departSpeed="max" from="E0" to="E3"/>
+    <flow id="g1_f1"  begin="0.00" end="1200.00" probability="0.04" departLane="best" departSpeed="max" from="E0" to="E2"/>
+    <flow id="g1_f2"  begin="0.00" end="1200.00" probability="0.02" departLane="best" departSpeed="max" from="E0" to="E1"/>
+
+    <flow id="g1_f3"  begin="0.00" end="1200.00" probability="0.02" departLane="best" departSpeed="max" from="-E2" to="E1"/>
+    <flow id="g1_f4"  begin="0.00" end="1200.00" probability="0.04" departLane="best" departSpeed="max" from="-E2" to="-E0"/>
+    <flow id="g1_f5"  begin="0.00" end="1200.00" probability="0.02" departLane="best" departSpeed="max" from="-E2" to="E3"/>
+
+    <!-- ==================== GIAI ĐOẠN 2 (1200s - 2400s): ĐÔNG ĐÔNG - TÂY ==================== -->
+    <!-- Trục Đông - Tây (E0, -E2): Đông xe -->
+    <flow id="g2_f0"  begin="1200.00" end="2400.00" probability="0.06" departLane="best" departSpeed="max" from="E0" to="E3"/>
+    <flow id="g2_f1"  begin="1200.00" end="2400.00" probability="0.18" departLane="best" departSpeed="max" from="E0" to="E2"/>
+    <flow id="g2_f2"  begin="1200.00" end="2400.00" probability="0.06" departLane="best" departSpeed="max" from="E0" to="E1"/>
+
+    <flow id="g2_f3"  begin="1200.00" end="2400.00" probability="0.06" departLane="best" departSpeed="max" from="-E2" to="E1"/>
+    <flow id="g2_f4"  begin="1200.00" end="2400.00" probability="0.18" departLane="best" departSpeed="max" from="-E2" to="-E0"/>
+    <flow id="g2_f5"  begin="1200.00" end="2400.00" probability="0.06" departLane="best" departSpeed="max" from="-E2" to="E3"/>
+
+    <!-- Trục Bắc - Nam (-E1, -E3): Thưa xe -->
+    <flow id="g2_f6"  begin="1200.00" end="2400.00" probability="0.02" departLane="best" departSpeed="max" from="-E3" to="E2"/>
+    <flow id="g2_f7"  begin="1200.00" end="2400.00" probability="0.02" departLane="best" departSpeed="max" from="-E3" to="-E0"/>
+    <flow id="g2_f8"  begin="1200.00" end="2400.00" probability="0.04" departLane="best" departSpeed="max" from="-E3" to="E1"/>
+
+    <flow id="g2_f9"  begin="1200.00" end="2400.00" probability="0.02" departLane="best" departSpeed="max" from="-E1" to="-E0"/>
+    <flow id="g2_f10" begin="1200.00" end="2400.00" probability="0.04" departLane="best" departSpeed="max" from="-E1" to="E3"/>
+    <flow id="g2_f11" begin="1200.00" end="2400.00" probability="0.02" departLane="best" departSpeed="max" from="-E1" to="E2"/>
+
+    <!-- ==================== GIAI ĐOẠN 3 (2400s - 3600s): THẤP ĐIỂM CẢ 4 HƯỚNG ==================== -->
+    <flow id="g3_f0"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="E0" to="E3"/>
+    <flow id="g3_f1"  begin="2400.00" end="3600.00" probability="0.04" departLane="best" departSpeed="max" from="E0" to="E2"/>
+    <flow id="g3_f2"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="E0" to="E1"/>
+
+    <flow id="g3_f3"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E2" to="E1"/>
+    <flow id="g3_f4"  begin="2400.00" end="3600.00" probability="0.04" departLane="best" departSpeed="max" from="-E2" to="-E0"/>
+    <flow id="g3_f5"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E2" to="E3"/>
+
+    <flow id="g3_f6"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E3" to="E2"/>
+    <flow id="g3_f7"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E3" to="-E0"/>
+    <flow id="g3_f8"  begin="2400.00" end="3600.00" probability="0.04" departLane="best" departSpeed="max" from="-E3" to="E1"/>
+
+    <flow id="g3_f9"  begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E1" to="-E0"/>
+    <flow id="g3_f10" begin="2400.00" end="3600.00" probability="0.04" departLane="best" departSpeed="max" from="-E1" to="E3"/>
+    <flow id="g3_f11" begin="2400.00" end="3600.00" probability="0.02" departLane="best" departSpeed="max" from="-E1" to="E2"/>
+</routes>
